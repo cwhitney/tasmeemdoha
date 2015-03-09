@@ -50,13 +50,36 @@ Line createRandomLine() {
   return myLine;
 }
 
+
+void walkTheLine( Line l ) {
+    
+  float dist = l.p1.dist( l.p2 );
+    
+  for( int i=0; i<dist; i++ ){
+    PVector newPos = new PVector(l.p1.x, l.p1.y);
+    
+    newPos.lerp( l.p2, (float)i / (float)dist );
+    color c = get((int)newPos.x, (int)newPos.y);
+    
+    color targetColor = color(255);
+    
+    if( c != targetColor ){
+      crosses.add( newPos );
+    }
+  }
+  
+  fill( color(255) );
+}
+
 void doDraw(){
   background(255);
   crosses.clear();
   
   fill( color(255) );
   for( int i=0; i<lines.size(); i++ ){
+    println("LINE ", i, "--------------------------------------------");
     Line l = lines.get(i);
+    walkTheLine( l );
     line( l.p1.x, l.p1.y, l.p2.x, l.p2.y ); 
   }
   
